@@ -1,4 +1,5 @@
 from abc import ABC
+from Node import Node
 
 
 # the implementation of the interface
@@ -17,17 +18,16 @@ def swap_characters(s, index1, index2):
 class EightPuzzle:
 
     @staticmethod
-    def is_goal(self, state):
+    def is_goal(state):
         # Define the goal state checking logic
-        if state == "012345678":
+        if state.data == "012345678":
             return True
         return False
-        pass
 
     @staticmethod
-    def actions(self, state):
+    def actions(state):
         # Define the actions available for a given state
-        pos = state.find('0')
+        pos = state.data.find('0')
         down = pos + 3
         up = pos - 3
         right = pos + 1
@@ -38,30 +38,34 @@ class EightPuzzle:
         if col < 2:
             possible = state
             swap_characters(possible, pos, right)
-            possible_actions.append(possible)
+            possible_actions.append(Node(possible, state.depth + 1))
         if row < 2:
             possible = state
             swap_characters(possible, pos, down)
-            possible_actions.append(possible)
+            possible_actions.append(Node(possible, state.depth + 1))
         if col > 0:
             possible = state
             swap_characters(possible, pos, left)
-            possible_actions.append(possible)
+            possible_actions.append(Node(possible, state.depth + 1))
         if row > 0:
             possible = state
             swap_characters(possible, pos, up)
-            possible_actions.append(possible)
+            possible_actions.append(Node(possible, state.depth + 1))
         return possible_actions
-        pass
 
     @staticmethod
-    def path_cost(self, state):
-        pass
+    def path_cost(state):
+        return state.depth
 
     @staticmethod
-    def nodes_expanded(self):
-        pass
+    def nodes_expanded(expanded_nodes):
+        return len(expanded_nodes)
 
     @staticmethod
-    def path_to_goal(self, state, parents):
-        pass
+    def path_to_goal(state, parents):
+        path = []
+        while state.data is not None:
+            path.append(state.data)
+            state.data = parents[state.data]
+        path.reverse()
+        return path
