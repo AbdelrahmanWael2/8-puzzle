@@ -1,5 +1,6 @@
 from solverCommand import SolverCommand
 from EightPuzzle import EightPuzzle as ep
+import Node
 
 
 class DFSSolver(SolverCommand):
@@ -25,12 +26,13 @@ class DFSSolver(SolverCommand):
                 print("reached state: " + state.data)
                 # Missing: print the required outputs (depth, cost, path, ...)
                 return True
-            neighbours = ep.actions(self, state.data)
-            for neighbour in neighbours:
+            neighbors = ep.actions(self, state.data)
+            for neighbor in neighbors:
                 # Missing: add the state to the parent tree as one of the current state's children
-                if neighbour not in frontier_hash and neighbour not in explored:
-                    frontier.append(state)
-                    frontier_hash[state] = True
+                if neighbor not in frontier_hash and neighbor not in explored:
+                    new_state = Node.Node(neighbor, state.depth)
+                    frontier.append(new_state)
+                    frontier_hash[new_state] = True
         print("Not solvable")
         return False
         pass
