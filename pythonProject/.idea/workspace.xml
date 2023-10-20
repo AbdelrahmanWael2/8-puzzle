@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="24ea4d95-40b2-424f-8f62-899a654a0a66" name="Changes" comment="" />
+    <list default="true" id="24ea4d95-40b2-424f-8f62-899a654a0a66" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EightPuzzle.py" beforeDir="false" afterPath="$PROJECT_DIR$/EightPuzzle.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,7 +35,7 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -78,6 +81,7 @@
       <workItem from="1697714514290" duration="382000" />
       <workItem from="1697715156441" duration="4113000" />
       <workItem from="1697720313491" duration="5209000" />
+      <workItem from="1697738672974" duration="2830000" />
     </task>
     <servers />
   </component>
