@@ -7,15 +7,18 @@ goalState = "012345678"
 
 
 def mh_heuristic(current_node):
-    distance = 0
-    current_node_data = str(current_node.data)
-    depth = current_node.depth
-    for i in range(9):
-        if current_node_data[i] != '0':
-            current_row, current_col = divmod(current_node_data.index(str(i)), 3)
-            goal_row, goal_col = divmod(goalState.index(str(i)), 3)
-            distance += abs(current_row - goal_row) + abs(current_col - goal_col)
-    return distance + depth
+    res = current_node.depth
+    state = current_node.data
+    for char in state:
+        if char != '0':
+            current_pos = state.index(char)
+
+            target_pos = goalState.index(char)
+
+            distance = abs(current_pos // 3 - target_pos // 3) + abs(current_pos % 3 - target_pos % 3)
+            res += distance
+
+    return res
 
 
 class AStarSolverM(SolverCommand):
@@ -28,28 +31,27 @@ class AStarSolverM(SolverCommand):
         heapq.heapify(frontiers)
         explored = set()
         parents = {}
-        frontiers_hash = {self.initial_node.data: True}
+        frontiers_hash = set()
+        nodes_expanded = 1
+        frontiers_hash.add(self.initial_node.data)
         while frontiers:
             _, state = heapq.heappop(frontiers)
             explored.add(state.data)
             if ep.is_goal(state.data):
                 path_cost = ep.path_cost(state)
-                nodes_expanded = ep.nodes_expanded(explored)
                 if self.with_parents:
                     path = ep.path_to_goal(state, parents)
                     return "Success", (path_cost, nodes_expanded, path)
                 else:
                     return "Success", (path_cost, nodes_expanded)
             neighbors = ep.actions(state)
-            new_frontiers = []
-            for neighbor in neighbors:
-                if neighbor not in explored:
-                    if neighbor.data not in frontiers_hash:
-                        new_frontiers.append((mh_heuristic(neighbor), neighbor))
-                        frontiers_hash[neighbor.data] = True
-                        if self.with_parents:  # Check if path required or not
-                            parents[neighbor] = state.data
-            frontiers.extend(new_frontiers)
-            heapq.heapify(frontiers)
-        return "Fail"
 
+            for neighbor in neighbors:
+                if neighbor.data not in explored and neighbor.data not in frontiers_hash:
+                    nodes_expanded += 1
+                    heapq.heappush(frontiers, (mh_heuristic(neighbor), neighbor))
+                    frontiers_hash.add(neighbor.data)
+                    if self.with_parents:
+                        parents[neighbor] = state.data
+
+        return "Fail"
