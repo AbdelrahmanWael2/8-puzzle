@@ -18,22 +18,28 @@ class DFSSolver(SolverCommand):
         frontier_hash = {}
         frontier.append(self.initial_node)
         frontier_hash[self.initial_node] = True
+        parents = {self.initial_node.data: None}
         # Missing: define the parent tree
         while frontier:
             state = frontier.pop()
-            explored.add(state)
-            if ep.is_goal(self, state):
+            explored.add(state.data)
+            if ep.is_goal(state.data):
                 print("reached state: " + state.data)
-                # Missing: print the required outputs (depth, cost, path, ...)
+                print(ep.nodes_expanded(explored))
+                print(ep.path_to_goal(state, parents))
+                print(len(parents))
+                print(state.depth)
                 return True
-            neighbors = ep.actions(self, state.data)
+            neighbors = ep.actions(state)
+            neighbors = neighbors[::-1]
             for neighbor in neighbors:
-                # Missing: add the state to the parent tree as one of the current state's children
-                if neighbor not in frontier_hash and neighbor not in explored:
-                    new_state = Node.Node(neighbor, state.depth)
-                    frontier.append(new_state)
-                    frontier_hash[new_state] = True
+                if neighbor not in frontier_hash and neighbor.data not in explored:
+                    frontier.append(neighbor)
+                    frontier_hash[neighbor] = True
+                    parents[neighbor.data] = state.data
         print("Not solvable")
         return False
         pass
     # Update 1: Waiting for the EightPuzzle implementation to complete the missing parts
+    # Update 2: Completed the missing parts. The path looks like trash, needs to be reformatted (or not if we use a GUI)
+    #           Missing last touches (optimizations and possible modifications). One step away from merging ;)
