@@ -11,18 +11,23 @@ class DFSSolver(SolverCommand):
         self.with_parents = with_parents
 
     def execute(self):
-        # Implement DFS algorithm for solving the puzzle
+
+        # Initialize the frontier stack, the explored set, and
+        # the frontier hashtable for faster neighbour existence checking
         frontier = []
         explored = set()
         frontier_hash = {}
         frontier.append(self.initial_node)
         frontier_hash[self.initial_node] = True
+
+        # Initialize the parent array to allow us to print the path
         parents = {self.initial_node.data: None}
-        # Missing: define the parent tree
+
+        # Loop until the frontier is empty (should never happen, reason on line 47), or a solution is reached
         while frontier:
             state = frontier.pop()
             explored.add(state.data)
-            if ep.is_goal(state.data):
+            if ep.is_goal(state.data):  # Reached 012345678
                 print("Reached state: " + str(state.data))
                 print("Nodes expanded: " + str(ep.nodes_expanded(explored)))
                 if self.with_parents:
@@ -31,12 +36,15 @@ class DFSSolver(SolverCommand):
                 return True
             neighbors = ep.actions(state)
             # neighbors = neighbors[::-1] --> Changed the policy from r - d - l - u to u - l - d - r
-            for neighbor in neighbors:
+            for neighbor in neighbors:  # Loop over the neighbouring states, push them to the stack
                 if neighbor not in frontier_hash and neighbor.data not in explored:
                     frontier.append(neighbor)
                     frontier_hash[neighbor] = True
                     if self.with_parents:
                         parents[neighbor.data] = state.data
+
+        # If the frontier becomes empty, the state then is unsolvable
+        # Note: this is unreachable because we already implemented the initial state checking code
         print("Not solvable")
         return False
         pass
