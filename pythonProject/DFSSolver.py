@@ -33,7 +33,11 @@ class DFSSolver(SolverCommand):
                 if self.with_parents:
                     print("Path to goal: " + str(ep.path_to_goal(state, parents)))
                 print("Path cost: " + str(ep.path_cost(state)))
-                return True
+                if self.with_parents:
+                    return "success", ep.path_cost(state), ep.nodes_expanded(explored), ep.path_to_goal(state, parents)
+                else:
+                    return "success", ep.path_cost(state), ep.nodes_expanded(explored)
+
             neighbors = ep.actions(state)
             # neighbors = neighbors[::-1] --> Changed the policy from r - d - l - u to u - l - d - r
             for neighbor in neighbors:  # Loop over the neighbouring states, push them to the stack
@@ -46,8 +50,7 @@ class DFSSolver(SolverCommand):
         # If the frontier becomes empty, the state then is unsolvable
         # Note: this is unreachable because we already implemented the initial state checking code
         print("Not solvable")
-        return False
-        pass
+        return "false", 0, 0
     # Update 1: Waiting for the EightPuzzle implementation to complete the missing parts
     # Update 2: Completed the missing parts. The path looks like trash, needs to be reformatted (or not if we use a GUI)
     #           Missing last touches (optimizations and possible modifications). One step away from merging ;)
