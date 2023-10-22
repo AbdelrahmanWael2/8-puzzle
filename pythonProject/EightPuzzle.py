@@ -60,8 +60,9 @@ class EightPuzzle:
     @staticmethod
     def path_to_goal(state, parents):
         path = []
-        while state.data is not None:
+        while state.data != parents[state.data]:
             path.append(state.data)
             state.data = parents[state.data]
+        path.append(state.data)
         path.reverse()
         return path

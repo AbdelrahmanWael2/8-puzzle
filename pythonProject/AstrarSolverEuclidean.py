@@ -6,7 +6,6 @@ from EightPuzzle import EightPuzzle as ep
 goalState = "012345678"
 
 
-
 def euclidian(state):
     res = state.depth
     cur_state = state.data
@@ -31,7 +30,7 @@ class AStarSolverE(SolverCommand):
         frontiers = [(euclidian(self.initial_node), self.initial_node)]
         heapq.heapify(frontiers)
         explored = set()
-        parents = {}
+        parents = {self.initial_node.data: self.initial_node.data}
         frontiers_hash = set()
         nodes_expanded = 1
         frontiers_hash.add(self.initial_node.data)
@@ -44,7 +43,7 @@ class AStarSolverE(SolverCommand):
                     path = ep.path_to_goal(state, parents)
                     return "Success", (path_cost, nodes_expanded, path)
                 else:
-                    return "Success", (path_cost, nodes_expanded)
+                    return "Success", (path_cost, nodes_expanded, [])
             neighbors = ep.actions(state)
 
             for neighbor in neighbors:
@@ -53,6 +52,5 @@ class AStarSolverE(SolverCommand):
                     heapq.heappush(frontiers, (euclidian(neighbor), neighbor))
                     frontiers_hash.add(neighbor.data)
                     if self.with_parents:
-                        parents[neighbor] = state.data
-
-        return "Fail"
+                        parents[neighbor.data] = state.data
+        return "Fail", (0, 0, [])
