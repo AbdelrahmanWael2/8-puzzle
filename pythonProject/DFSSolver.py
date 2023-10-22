@@ -1,6 +1,5 @@
 from solverCommand import SolverCommand
 from EightPuzzle import EightPuzzle as ep
-import Node
 
 
 class DFSSolver(SolverCommand):
@@ -24,22 +23,24 @@ class DFSSolver(SolverCommand):
             state = frontier.pop()
             explored.add(state.data)
             if ep.is_goal(state.data):
-                print("reached state: " + state.data)
-                print(ep.nodes_expanded(explored))
-                print(ep.path_to_goal(state, parents))
-                print(len(parents))
-                print(state.depth)
+                print("Reached state: " + str(state.data))
+                print("Nodes expanded: " + str(ep.nodes_expanded(explored)))
+                if self.with_parents:
+                    print("Path to goal: " + str(ep.path_to_goal(state, parents)))
+                print("Path cost: " + str(ep.path_cost(state)))
                 return True
             neighbors = ep.actions(state)
-            neighbors = neighbors[::-1]
+            # neighbors = neighbors[::-1] --> Changed the policy from r - d - l - u to u - l - d - r
             for neighbor in neighbors:
                 if neighbor not in frontier_hash and neighbor.data not in explored:
                     frontier.append(neighbor)
                     frontier_hash[neighbor] = True
-                    parents[neighbor.data] = state.data
+                    if self.with_parents:
+                        parents[neighbor.data] = state.data
         print("Not solvable")
         return False
         pass
     # Update 1: Waiting for the EightPuzzle implementation to complete the missing parts
     # Update 2: Completed the missing parts. The path looks like trash, needs to be reformatted (or not if we use a GUI)
     #           Missing last touches (optimizations and possible modifications). One step away from merging ;)
+    # Update 3: Reformatted the outputs, and changed the policy from RDLU to ULDR
