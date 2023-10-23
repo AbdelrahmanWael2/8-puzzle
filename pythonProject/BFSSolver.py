@@ -1,5 +1,5 @@
 from solverCommand import SolverCommand
-import EightPuzzle as ep
+from EightPuzzle import EightPuzzle as ep
 import Node
 
 
