@@ -9,7 +9,7 @@ class BFSSolver(SolverCommand):
     depth = 0
 
     def __init__(self, node, with_parents):
-        self.initial_node = Node.Node(node.data, 0)
+        self.initial_node = Node.Node(node, 0)
         self.with_parents = with_parents
         self.depth = 0
 
