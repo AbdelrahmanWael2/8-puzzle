@@ -30,8 +30,8 @@ class BFSSolver(SolverCommand):
             explored.add(state.data)
             if ep.is_goal(state.data):  # Reached 012345678
 
-                return ("success", ep.path_cost(state), ep.nodes_expanded(explored), self.depth,
-                        ep.path_to_goal(state, parents))
+                return "success", (ep.path_cost(state), ep.nodes_expanded(explored), self.depth,
+                                   ep.path_to_goal(state, parents))
 
             # Get the possible actions for the current state
             possible_actions = ep.actions(state)
@@ -41,4 +41,4 @@ class BFSSolver(SolverCommand):
                     frontier_hash[action.data] = True
                     parents[action.data] = state.data
                     self.depth = max(self.depth, action.depth)
-        return "fail", 0, 0, 0, []
+        return "fail", (0, 0, 0, [])
