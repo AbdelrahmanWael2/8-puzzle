@@ -1,9 +1,27 @@
+import re
 import time
 from command_factory import CommandFactory
 import tkinter as tk
 from tkinter import ttk
 
 
+def is_solvable(state):
+    # Convert the state string to a list of integers
+    state_list = [int(x) for x in re.findall(r'\d', state)]
+    # Count the number of inversions
+    inversions = 0
+    for i in range(len(state_list)):
+        for j in range(i + 1, len(state_list)):
+            if state_list[i] > state_list[j] != 0 and state_list[i] != 0:
+                inversions += 1
+
+    # Check if the number of inversions is even
+    if inversions % 2 == 0:
+        return True
+    else:
+        return False
+
+      
 class Gui:
     def __init__(self):
         # initialization
