@@ -42,7 +42,7 @@ class DFSSolver(SolverCommand):
             neighbors = ep.actions(state)
             # neighbors = neighbors[::-1] --> Changed the policy from r - d - l - u to u - l - d - r
             for neighbor in neighbors:  # Loop over the neighbouring states, push them to the stack
-                if neighbor not in frontier_hash and neighbor.data not in explored:
+                if neighbor.data not in frontier_hash and neighbor.data not in explored:
                     frontier.append(neighbor)
                     frontier_hash[neighbor.data] = True
                     parents[neighbor.data] = state.data
