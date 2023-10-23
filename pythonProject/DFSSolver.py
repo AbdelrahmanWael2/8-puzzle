@@ -1,5 +1,6 @@
 from solverCommand import SolverCommand
 from EightPuzzle import EightPuzzle as ep
+import Node
 
 
 class DFSSolver(SolverCommand):
@@ -7,7 +8,7 @@ class DFSSolver(SolverCommand):
     with_parents = False
 
     def __init__(self, node, with_parents):
-        self.initial_node = node
+        self.initial_node = Node.Node(node, 0)
         self.with_parents = with_parents
 
     def execute(self):
@@ -21,7 +22,7 @@ class DFSSolver(SolverCommand):
         frontier_hash[self.initial_node.data] = True
 
         # Initialize the parent array to allow us to print the path
-        parents = {self.initial_node.data: None}
+        parents = {self.initial_node.data: self.initial_node.data}
 
         # Initialize the variable used to maximize the depth
         max_depth = -1

@@ -21,7 +21,7 @@ def is_solvable(state):
     else:
         return False
 
-      
+
 class Gui:
     def __init__(self):
         # initialization
@@ -108,17 +108,33 @@ class Gui:
     def on_submit(self):
         self.initial_state, self.method, self.with_parents = (self.state_input_box.get('1.0', tk.END)[:9],
                                                               self.chosen_method.get(), self.need_path_value.get())
-        # initial_node = Node.Node(self.initial_state, 0)
-        command = CommandFactory.create_commands(self.method, self.initial_state, self.with_parents)
-        start_time = time.time()
-        status, description = command.execute()
-        end_time = time.time()
-        print("Time taken: ", end_time - start_time)
-        self.show_main_data(status, description[0], description[1], description[2], end_time - start_time)
-        if self.with_parents:
-            self.path = description[-1]
-            self.index = 0
-            self.show_results_buttons()
+        if is_solvable(state=self.initial_state):
+            command = CommandFactory.create_commands(self.method, self.initial_state, self.with_parents)
+            start_time = time.time()
+            status, description = command.execute()
+            end_time = time.time()
+            print("Time taken: ", end_time - start_time)
+            self.show_main_data(status, description[0], description[1], description[2], end_time - start_time)
+            if self.with_parents:
+                self.path = description[-1]
+                self.index = 0
+                self.show_results_buttons()
+        else:
+            self.status_frame = tk.Frame(self.root, background='#856ff8')
+            self.status_frame.columnconfigure(0, weight=1)
+            self.status_frame.columnconfigure(1, weight=1)
+            self.status_label = tk.Label(self.status_frame,
+                                         text="Status:",
+                                         font="20",
+                                         background='#856ff8')
+            self.status_label.grid(row=0, column=0, padx=20)
+            self.status_ans = tk.Label(self.status_frame,
+                                       text="Fail",
+                                       font="20",
+                                       foreground="#FF0000",
+                                       background='#856ff8')
+            self.status_ans.grid(row=0, column=1, padx=20)
+            self.status_frame.pack()
 
     def show_main_data(self, status, cost, expanded, depth, my_time):
         self.status_frame = tk.Frame(self.root, background='#856ff8')
