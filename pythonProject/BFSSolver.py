@@ -26,7 +26,7 @@ class BFSSolver(SolverCommand):
         # Initialize the parents dictionary for printing the path to the goal
         parents = {self.initial_node.data: None}
         while frontier:
-            state = frontier.pop()
+            state = frontier.pop(0)
             explored.add(state.data)
             if ep.is_goal(state.data):  # Reached 012345678
                 if self.with_parents:
