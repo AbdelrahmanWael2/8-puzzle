@@ -7,6 +7,10 @@ from tkinter import ttk
 class Gui:
     def __init__(self):
         # initialization
+        self.time_ans = None
+        self.time_label = None
+        self.depth_ans = None
+        self.depth_label = None
         self.expand_ans = None
         self.expand_label = None
         self.index = None
@@ -42,7 +46,7 @@ class Gui:
         self.method = None
         self.initial_state = None
         self.root = tk.Tk()
-        self.root.geometry("800x500")
+        self.root.geometry("800x600")
         self.root.title("8-Puzzle")
         self.root.configure(bg='#856ff8')
         # input frame
@@ -92,13 +96,13 @@ class Gui:
         status, description = command.execute()
         end_time = time.time()
         print("Time taken: ", end_time - start_time)
-        self.show_main_data(status, description[0], description[1])
+        self.show_main_data(status, description[0], description[1], description[2], end_time - start_time)
         if self.with_parents:
             self.path = description[-1]
             self.index = 0
             self.show_results_buttons()
 
-    def show_main_data(self, status, cost, expanded):
+    def show_main_data(self, status, cost, expanded, depth, my_time):
         self.status_frame = tk.Frame(self.root, background='#856ff8')
         self.status_frame.columnconfigure(0, weight=1)
         self.status_frame.columnconfigure(1, weight=1)
@@ -133,6 +137,26 @@ class Gui:
                                    font="20",
                                    background='#856ff8')
         self.expand_ans.grid(row=2, column=1, padx=20)
+        self.depth_label = tk.Label(self.status_frame,
+                                    text="Max depth:",
+                                    font="20",
+                                    background='#856ff8')
+        self.depth_label.grid(row=3, column=0, padx=20)
+        self.depth_ans = tk.Label(self.status_frame,
+                                  text=depth,
+                                  font="20",
+                                  background='#856ff8')
+        self.depth_ans.grid(row=3, column=1, padx=20)
+        self.time_label = tk.Label(self.status_frame,
+                                   text="Time(sec):",
+                                   font="20",
+                                   background='#856ff8')
+        self.time_label.grid(row=4, column=0, padx=20)
+        self.time_ans = tk.Label(self.status_frame,
+                                 text=(round(my_time, 5)),
+                                 font="20",
+                                 background='#856ff8')
+        self.time_ans.grid(row=4, column=1, padx=20)
         self.status_frame.pack()
 
     def show_results_buttons(self):

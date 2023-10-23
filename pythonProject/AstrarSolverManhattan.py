@@ -30,20 +30,19 @@ class AStarSolverM(SolverCommand):
         frontiers = [(mh_heuristic(self.initial_node), self.initial_node)]
         heapq.heapify(frontiers)
         explored = set()
-        parents = {}
+        parents = {self.initial_node.data: self.initial_node.data}
         frontiers_hash = set()
         nodes_expanded = 1
         frontiers_hash.add(self.initial_node.data)
+        max_depth = 0
         while frontiers:
             _, state = heapq.heappop(frontiers)
             explored.add(state.data)
+            max_depth = max(max_depth, state.depth)
             if ep.is_goal(state.data):
                 path_cost = ep.path_cost(state)
-                if self.with_parents:
-                    path = ep.path_to_goal(state, parents)
-                    return "Success", (path_cost, nodes_expanded, path)
-                else:
-                    return "Success", (path_cost, nodes_expanded)
+                path = ep.path_to_goal(state, parents)
+                return "Success", (path_cost, nodes_expanded, max_depth, path)
             neighbors = ep.actions(state)
 
             for neighbor in neighbors:
@@ -51,7 +50,6 @@ class AStarSolverM(SolverCommand):
                     nodes_expanded += 1
                     heapq.heappush(frontiers, (mh_heuristic(neighbor), neighbor))
                     frontiers_hash.add(neighbor.data)
-                    if self.with_parents:
-                        parents[neighbor] = state.data
+                    parents[neighbor.data] = state.data
 
-        return "Fail"
+        return "Fail", (0, 0, 0, [])

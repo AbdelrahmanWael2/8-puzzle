@@ -1,7 +1,5 @@
 import unittest
 from pythonProject.AstrarSolverManhattan import AStarSolverM
-from pythonProject.EightPuzzle import EightPuzzle
-from pythonProject import *
 
 
 class TestAStarSolver(unittest.TestCase):
@@ -13,7 +11,7 @@ class TestAStarSolver(unittest.TestCase):
         result, values = solver.execute()
 
         self.assertEqual(result, "Success")
-        path_cost, nodes_expanded = values
+        path_cost, nodes_expanded, depth, path = values
         self.assertEqual(path_cost, 27)
         self.assertEqual(nodes_expanded, 6651)
         # Add more assertions as needed
@@ -25,7 +23,7 @@ class TestAStarSolver(unittest.TestCase):
         result, values = solver.execute()
 
         self.assertEqual(result, "Success")
-        path_cost, nodes_expanded = values
+        path_cost, nodes_expanded, depth, path = values
         self.assertEqual(path_cost, 3)
         self.assertEqual(nodes_expanded, 7)
 
@@ -36,7 +34,7 @@ class TestAStarSolver(unittest.TestCase):
         result, values = solver.execute()
 
         self.assertEqual(result, "Success")
-        path_cost, nodes_expanded = values
+        path_cost, nodes_expanded, depth, path = values
         self.assertEqual(path_cost, 8)
         self.assertEqual(nodes_expanded, 21)
 
@@ -44,7 +42,7 @@ class TestAStarSolver(unittest.TestCase):
 
         initial_state = "352417806"
         solver = AStarSolverM(initial_state, with_parents=False)
-        result = solver.execute()
+        result, values = solver.execute()
 
         self.assertEqual(result, "Fail")
 
@@ -55,7 +53,7 @@ class TestAStarSolver(unittest.TestCase):
         result, values = solver.execute()
 
         self.assertEqual(result, "Success")
-        path_cost, nodes_expanded = values
+        path_cost, nodes_expanded, depth, path = values
         self.assertEqual(path_cost, 31)
         self.assertEqual(nodes_expanded, 30047)
 

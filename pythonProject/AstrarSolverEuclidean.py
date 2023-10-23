@@ -2,22 +2,20 @@ from pythonProject import Node
 from solverCommand import SolverCommand
 import heapq
 from EightPuzzle import EightPuzzle as ep
+import math
 
 goalState = "012345678"
 
 
-def euclidian(state):
-    res = state.depth
-    cur_state = state.data
-    for letter in cur_state:
-        cur_pos = cur_state.index(letter)
-        goal_pos = goalState.index(letter)
-        if cur_pos != goal_pos:
-            cur_pos_x = cur_pos // 3
-            cur_pos_y = cur_pos % 3
-            goal_pos_x = goal_pos // 3
-            goal_pos_y = goal_pos % 3
-            res += abs(cur_pos_x - goal_pos_x) + abs(cur_pos_y - goal_pos_y)
+def euclidian(current_node):
+    res = current_node.depth
+    state = current_node.data
+    for char in state:
+        if char != '0':
+            current_pos = state.index(char)
+            target_pos = goalState.index(char)
+            distance = math.sqrt(abs(current_pos // 3 - target_pos // 3)**2 + abs(current_pos % 3 - target_pos % 3)**2)
+            res += distance
     return res
 
 
@@ -34,16 +32,15 @@ class AStarSolverE(SolverCommand):
         frontiers_hash = set()
         nodes_expanded = 1
         frontiers_hash.add(self.initial_node.data)
+        max_depth = 0
         while frontiers:
             _, state = heapq.heappop(frontiers)
             explored.add(state.data)
+            max_depth = max(max_depth, state.depth)
             if ep.is_goal(state.data):
                 path_cost = ep.path_cost(state)
-                if self.with_parents:
-                    path = ep.path_to_goal(state, parents)
-                    return "Success", (path_cost, nodes_expanded, path)
-                else:
-                    return "Success", (path_cost, nodes_expanded, [])
+                path = ep.path_to_goal(state, parents)
+                return "Success", (path_cost, nodes_expanded, max_depth, path)
             neighbors = ep.actions(state)
 
             for neighbor in neighbors:
@@ -51,6 +48,5 @@ class AStarSolverE(SolverCommand):
                     nodes_expanded += 1
                     heapq.heappush(frontiers, (euclidian(neighbor), neighbor))
                     frontiers_hash.add(neighbor.data)
-                    if self.with_parents:
-                        parents[neighbor.data] = state.data
-        return "Fail", (0, 0, [])
+                    parents[neighbor.data] = state.data
+        return "Fail", (0, 0, 0, [])

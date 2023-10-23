@@ -1,7 +1,5 @@
 import unittest
 from pythonProject.AstrarSolverEuclidean import AStarSolverE
-from pythonProject.EightPuzzle import EightPuzzle
-from pythonProject import *
 
 
 class TestAStarSolver(unittest.TestCase):
@@ -11,9 +9,9 @@ class TestAStarSolver(unittest.TestCase):
         result, values = solver.execute()
 
         self.assertEqual(result, "Success")
-        path_cost, nodes_expanded = values
+        path_cost, nodes_expanded, depth, path = values
         self.assertEqual(path_cost, 27)
-        self.assertEqual(nodes_expanded, 10591)
+        self.assertEqual(nodes_expanded, 11574)
         # Add more assertions as needed
 
     def test_without_parents_easy(self):
@@ -23,7 +21,7 @@ class TestAStarSolver(unittest.TestCase):
         result, values = solver.execute()
 
         self.assertEqual(result, "Success")
-        path_cost, nodes_expanded = values
+        path_cost, nodes_expanded, depth, path = values
         self.assertEqual(path_cost, 3)
         self.assertEqual(nodes_expanded, 7)
 
@@ -33,14 +31,14 @@ class TestAStarSolver(unittest.TestCase):
         result, values = solver.execute()
 
         self.assertEqual(result, "Success")
-        path_cost, nodes_expanded = values
+        path_cost, nodes_expanded, depth, path = values
         self.assertEqual(path_cost, 8)
         self.assertEqual(nodes_expanded, 21)
 
     def test_without_parents_unsolvable(self):
         initial_state = "352417806"
         solver = AStarSolverE(initial_state, with_parents=False)
-        result = solver.execute()
+        result, values = solver.execute()
 
         self.assertEqual(result, "Fail")
 
@@ -50,9 +48,9 @@ class TestAStarSolver(unittest.TestCase):
         result, values = solver.execute()
 
         self.assertEqual(result, "Success")
-        path_cost, nodes_expanded = values
+        path_cost, nodes_expanded, depth, path = values
         self.assertEqual(path_cost, 31)
-        self.assertEqual(nodes_expanded, 28553)
+        self.assertEqual(nodes_expanded, 54809)
 
 
 if __name__ == "__main__":
