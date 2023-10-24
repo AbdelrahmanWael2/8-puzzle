@@ -136,7 +136,6 @@ class Gui:
             self.status_ans.grid(row=0, column=1, padx=20)
             self.status_frame.pack()
 
-
     def show_main_data(self, status, cost, expanded, depth, my_time):
         self.status_frame = tk.Frame(self.root, background='#856ff8')
         self.status_frame.columnconfigure(0, weight=1)

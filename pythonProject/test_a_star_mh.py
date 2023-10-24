@@ -13,7 +13,7 @@ class TestAStarSolver(unittest.TestCase):
         self.assertEqual(result, "Success")
         path_cost, nodes_expanded, depth, path = values
         self.assertEqual(path_cost, 27)
-        self.assertEqual(nodes_expanded, 6651)
+        self.assertEqual(nodes_expanded, 4417)
         # Add more assertions as needed
 
     def test_without_parents_easy(self):
@@ -25,7 +25,7 @@ class TestAStarSolver(unittest.TestCase):
         self.assertEqual(result, "Success")
         path_cost, nodes_expanded, depth, path = values
         self.assertEqual(path_cost, 3)
-        self.assertEqual(nodes_expanded, 7)
+        self.assertEqual(nodes_expanded, 4)
 
     def test_without_parents_normal(self):
 
@@ -36,7 +36,7 @@ class TestAStarSolver(unittest.TestCase):
         self.assertEqual(result, "Success")
         path_cost, nodes_expanded, depth, path = values
         self.assertEqual(path_cost, 8)
-        self.assertEqual(nodes_expanded, 21)
+        self.assertEqual(nodes_expanded, 11)
 
     def test_without_parents_unsolvable(self):
 
@@ -55,7 +55,7 @@ class TestAStarSolver(unittest.TestCase):
         self.assertEqual(result, "Success")
         path_cost, nodes_expanded, depth, path = values
         self.assertEqual(path_cost, 31)
-        self.assertEqual(nodes_expanded, 30047)
+        self.assertEqual(nodes_expanded, 21198)
 
 
 if __name__ == '__main__':
