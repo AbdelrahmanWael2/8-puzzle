@@ -106,6 +106,12 @@ class Gui:
         self.root.mainloop()
 
     def on_submit(self):
+        if hasattr(self, 'status_frame') and self.status_frame is not None:
+            self.status_frame.destroy()
+        if hasattr(self, 'ans_frame') and self.ans_frame is not None:
+            self.ans_frame.destroy()
+        if hasattr(self, 'nav_frame') and self.nav_frame is not None:
+            self.nav_frame.destroy()
         self.initial_state, self.method, self.with_parents = (self.state_input_box.get('1.0', tk.END)[:9],
                                                               self.chosen_method.get(), self.need_path_value.get())
         if is_solvable(state=self.initial_state):
@@ -162,7 +168,7 @@ class Gui:
                                  background='#856ff8')
         self.cost_ans.grid(row=1, column=1, padx=20)
         self.expand_label = tk.Label(self.status_frame,
-                                     text="#Expadned:",
+                                     text="#Expanded:",
                                      font="20",
                                      background='#856ff8')
         self.expand_label.grid(row=2, column=0, padx=20)
