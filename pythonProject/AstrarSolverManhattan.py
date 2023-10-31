@@ -39,7 +39,7 @@ class AStarSolverM(SolverCommand):
         while frontiers:
             _, state = heapq.heappop(frontiers)
             explored.add(state.data)
-            max_depth = max(max_depth, state.depth)
+            # max_depth = max(max_depth, state.depth)
             if ep.is_goal(state.data):
                 path_cost = ep.path_cost(state)
                 path = ep.path_to_goal(state, parents)
@@ -53,10 +53,12 @@ class AStarSolverM(SolverCommand):
                     frontiers_hash.add(neighbor.data)
                     parents[neighbor.data] = state.data
                     costs_map[neighbor.data] = neighbor.depth
+                    max_depth = max(max_depth, state.depth)
                 elif neighbor.data not in explored and neighbor.data in frontiers_hash:
                     if neighbor.depth < costs_map[neighbor.data]:
                         heapq.heappush(frontiers, (mh_heuristic(neighbor), neighbor))
                         parents[neighbor.data] = state.data
                         costs_map[neighbor.data] = neighbor.depth
+                        max_depth = max(max_depth, state.depth)
 
         return "Fail", (0, 0, 0, [])

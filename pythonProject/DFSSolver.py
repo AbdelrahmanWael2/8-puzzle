@@ -30,7 +30,7 @@ class DFSSolver(SolverCommand):
         # Loop until the frontier is empty (should never happen, reason on line 47), or a solution is reached
         while frontier:
             state = frontier.pop()
-            max_depth = max(max_depth, state.depth)
+            # max_depth = max(max_depth, state.depth)
             explored.add(state.data)
             if ep.is_goal(state.data):  # Reached 012345678
                 path_cost = ep.path_cost(state)
@@ -46,6 +46,7 @@ class DFSSolver(SolverCommand):
                     frontier.append(neighbor)
                     frontier_hash[neighbor.data] = True
                     parents[neighbor.data] = state.data
+                    max_depth = max(max_depth, state.depth)
 
         # If the frontier becomes empty, the state then is unsolvable
         # Note: this is unreachable because we already implemented the initial state checking code
