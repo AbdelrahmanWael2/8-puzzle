@@ -25,7 +25,7 @@ class DFSSolver(SolverCommand):
         parents = {self.initial_node.data: self.initial_node.data}
 
         # Initialize the variable used to maximize the depth
-        max_depth = -1
+        max_depth = 0
 
         # Loop until the frontier is empty (should never happen, reason on line 47), or a solution is reached
         while frontier:
