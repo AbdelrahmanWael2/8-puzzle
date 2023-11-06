@@ -46,7 +46,7 @@ class DFSSolver(SolverCommand):
                     frontier.append(neighbor)
                     frontier_hash[neighbor.data] = True
                     parents[neighbor.data] = state.data
-                    max_depth = max(max_depth, state.depth)
+                    max_depth = max(max_depth, neighbor.depth)
 
         # If the frontier becomes empty, the state then is unsolvable
         # Note: this is unreachable because we already implemented the initial state checking code
